@@ -87,17 +87,15 @@ const getArtworkById = async (req, res) => {
   };
 
 const deleteArtwork = async (req, res) => {
-    try {
-      const { id } = req.params;
-      await artService.deleteArtwork(id);
-      res.status(200).json({ message: 'Artwork deleted successfully' });
-    } catch (error) {
-      console.error(error.message);
-      res.status(404).json({ message: error.message });
-    }
-  };
-
-
+  try {
+    const { id } = req.params;
+    await artService.deleteArtwork(id);
+    res.status(200).json({ message: 'Artwork and associated images deleted successfully' });
+  } catch (error) {
+    console.error(error.message);
+    res.status(404).json({ message: error.message });
+  }
+};
 
 const updateArtwork = async (req, res) => {
   try {
@@ -106,42 +104,35 @@ const updateArtwork = async (req, res) => {
     const files = req.files;
   console.log(files);
   console.log(artData);
-  
-  
     const existingArt = await artService.getArtworkById(id,artData);
     if (!existingArt) {
       throw new Error('Artwork not found');
     }
-
-    // If there are new files uploaded, handle image update
-    let updatedImages = existingArt.artimage; // Keep old images if no new ones are uploaded
+    let updatedImages = existingArt.artimage; 
     if (files && files.length > 0) {
      
       const deletePromises = existingArt.artimage.map(publicId => cloudinary.uploader.destroy(publicId));
       await Promise.all(deletePromises);
-
-      // Upload new images to Cloudinary
       const uploadPromises = files.map(file => {
         return new Promise((resolve, reject) => {
           const uploadStream = cloudinary.uploader.upload_stream(
             {
               folder: 'artworks', 
-              public_id: file.originalname.split('.')[0] // You can customize this part
+              public_id: file.originalname.split('.')[0] 
             },
             (error, result) => {
               if (error) {
                 return reject(error);
               }
-              resolve(result.public_id); // Only saving the public ID in MongoDB
+              resolve(result.public_id); 
             }
           );
           streamifier.createReadStream(file.buffer).pipe(uploadStream);
         });
       });
-      updatedImages = await Promise.all(uploadPromises); // Store new public IDs
+      updatedImages = await Promise.all(uploadPromises);
     }
-
-    // Update artwork with new data and images
+              
     const updatedArt = await artService.updateArtwork(id, { ...artData, artimage: updatedImages });
     res.status(200).json(updatedArt);
 

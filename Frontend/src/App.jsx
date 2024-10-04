@@ -31,7 +31,7 @@ const App = () => {
     </Route>
 
     <Route >
-    <Route path='/AdminPanel' element={<AdminPanel/>}/>
+    <Route path='/AdminPanel/abijithea/3/10/1997' element={<AdminPanel/>}/>
     <Route path='/AllWorks' element={<AllWork/>}/>
     <Route path='/AddWork' element={<AddWork/>}/>
     <Route path='/Aboutme' element={<Aboutadmin/>}/>

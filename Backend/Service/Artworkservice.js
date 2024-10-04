@@ -1,6 +1,13 @@
 
 const Art = require('../Model/PortofolioSchema');
 
+const cloudinary = require('cloudinary').v2; // Import Cloudinary
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 const createArt = async (artData) => {
   const { artname, arttype, artimage, medium, artsize, year, description, exhibition, location,artvedio } = artData;
@@ -24,27 +31,36 @@ const createArt = async (artData) => {
 
 
 const getAllArtworks = async () => {
-    const artworks = await Art.find(); 
+    const artworks = await Art.find().sort({ createdAt: -1 });; 
     return artworks;
   };
 
 
 const getArtworkById = async (id) => {
-    const artwork = await Art.findById(id);  //get artwork by id
+    const artwork = await Art.findById(id); 
     if (!artwork) {
       throw new Error('Artwork not found');
     }
     return artwork;
   };
- 
+
 const deleteArtwork = async (id) => {
-    const artwork = await Art.findByIdAndDelete(id);
-    if (!artwork) {
-      throw new Error('Artwork not found');
-    }
-    return artwork;
-  };
-  
+  const artwork = await Art.findById(id);
+  if (!artwork) {
+    throw new Error('Artwork not found');
+  }
+  const deleteImagePromises = artwork.artimage.map((imageUrl) => {
+    const publicId = imageUrl.split('/').pop().split('.')[0]; 
+    return cloudinary.uploader.destroy(`artworks/${publicId}`);
+  });
+
+  await Promise.all(deleteImagePromises);
+
+  await Art.findByIdAndDelete(id);
+
+  return artwork;
+};
+
 
   const updateArtwork = async (id, artData) => {
     const { artname, arttype, artimage, medium, artsize, year, description, exhibition, location } = artData;
@@ -54,7 +70,7 @@ const deleteArtwork = async (id) => {
       {
         artname,
         arttype,
-        artimage,  // Updated public IDs of the images
+        artimage,  
         medium,
         artsize,
         year,
@@ -63,7 +79,7 @@ const deleteArtwork = async (id) => {
         artvedio,
         location
       },
-      { new: true }  // Return the updated document
+      { new: true }  
     );
   
     if (!updatedArt) {
@@ -74,9 +90,6 @@ const deleteArtwork = async (id) => {
   };
   
   
-
-
-
 module.exports = {
   createArt,getAllArtworks,getArtworkById,deleteArtwork,updateArtwork
 };

@@ -123,14 +123,7 @@ const AllWork = () => {
                   </button>
                   {dropdownOpen === artwork._id && (
                     <ul className="dropdown-menu absolute right-0 rounded-md shadow-lg text-white flex flex-col bg-white p-2">
-                      <li>
-                        <button
-                          onClick={() => handleEdit(artwork._id)}
-                          className="block hover:bg-gray-200 py-1 p-2 text-black text-center text-xs font-bold w-full rounded-md"
-                        >
-                          Edit
-                        </button>
-                      </li>
+                      
                       <li>
                         <button
                           onClick={() => handleDelete(artwork._id)}

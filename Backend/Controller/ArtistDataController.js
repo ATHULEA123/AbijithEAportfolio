@@ -51,13 +51,13 @@ const getArtist = async (req, res) => {
         let portfolio = '';
 
         if (req.files['artimage']) {
-            artimage = req.files['artimage'][0].filename; // Save only the filename
+            artimage = req.files['artimage'][0].filename; 
         }
         if (req.files['resume']) {
-            resume = req.files['resume'][0].filename; // Save only the filename
+            resume = req.files['resume'][0].filename; 
         }
         if (req.files['portfolio']) {
-            portfolio = req.files['portfolio'][0].filename; // Save only the filename
+            portfolio = req.files['portfolio'][0].filename; 
         }
 
         // Create a new artist entry
@@ -131,7 +131,7 @@ module.exports = {
   getArtist, 
   createArtist,
   deleteArtist, 
-  fileUpload, // Handling image, resume, and portfolio uploads
-};
+  fileUpload,
+}
 
 

@@ -59,7 +59,7 @@ const Collections = () => {
               >
                 <img
                   src={artwork.artimage[0]}
-                  className="w-full h-80  object-cover"
+                  className="w-full h-80  object-cover rounded-2xl"
                   alt={artwork.artname}
                 />
                 <div className="text-content">
