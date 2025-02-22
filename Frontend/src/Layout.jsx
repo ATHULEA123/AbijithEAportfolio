@@ -3,15 +3,14 @@ import { Outlet } from 'react-router-dom'
 import Navbar from './Components/Home/Navbar'
 import Footer from './Components/Home/Footer'
 
-const Layout = () => {
+const Layout = (isDarkMode) => {
   return (
     <>
-        <Navbar />
+        <Navbar isDarkMode={isDarkMode}/>
         <Outlet />
-        <Footer/>
-
+        <Footer isDarkMode={isDarkMode}/>
     </>
   )
 }
 
-export default Layout
+export default Layout;

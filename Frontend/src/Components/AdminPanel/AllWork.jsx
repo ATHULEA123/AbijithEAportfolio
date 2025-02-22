@@ -1,22 +1,21 @@
-
 import React, { useEffect, useState } from "react";
 import rightarrowwhite from "../../assets/rightarrowwhite.png";
 import AdminNavbar from "./AdminNavbar";
-import ConfirmationModal from "../AdminPanel/ConfirmationModal "; 
+import ConfirmationModal from "../AdminPanel/ConfirmationModal ";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
- import {faEllipsisVertical} from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 
-const AllWork = () => {
+const AllWork = ({isDarkMode}) => {
   const [artworks, setArtworks] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(null);
-  const [modalOpen, setModalOpen] = useState(false); 
-  const [artworkToDelete, setArtworkToDelete] = useState(null); 
+  const [modalOpen, setModalOpen] = useState(false);
+  const [artworkToDelete, setArtworkToDelete] = useState(null);
   const [filter, setFilter] = useState("all");
 
   useEffect(() => {
     const fetchArtworks = async () => {
       try {
-        const response = await fetch("http://localhost:3000/getallart");
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_BASE_URL}/getallart`);  
         const data = await response.json();
         setArtworks(data);
       } catch (error) {
@@ -39,7 +38,7 @@ const AllWork = () => {
   const confirmDelete = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/deleteart/${artworkToDelete}`,
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/deleteart/${artworkToDelete}`,
         {
           method: "DELETE",
         }
@@ -56,7 +55,7 @@ const AllWork = () => {
     } catch (error) {
       console.error("Error deleting artwork:", error);
     } finally {
-      setModalOpen(false); 
+      setModalOpen(false);
       setArtworkToDelete(null);
     }
   };
@@ -65,35 +64,38 @@ const AllWork = () => {
     setDropdownOpen(dropdownOpen === id ? null : id);
   };
 
-  const filteredArtworks = filter === "all" 
-    ? artworks 
-    : artworks.filter(artwork => artwork.arttype === filter);
+ 
+  const filteredArtworks =
+  filter === "all"
+    ? artworks
+    : artworks.filter((artwork) =>
+        artwork.arttype.trim().toLowerCase() === filter.trim().toLowerCase()
+      );
 
   return (
     <>
       <AdminNavbar />
       <div className="flex mx-5">
         {/* Filter Section */}
-        <div className="w-1/4 p-5 rounded-lg shadow-md mr-5">
-          <select 
-            value={filter} 
-            onChange={(e) => setFilter(e.target.value)} 
-            className="w-full p-2 border border-gray-400 rounded"
-          >
-            <option value="all">All</option>
-            <option value="painting">Painting</option>
-            <option value="sculpture">Sculpture</option>
-            <option value="installation">Installation</option>
-            <option value="sketches">Sketches</option>
-            <option value="publicart">Public Art</option>
-          </select>
-        </div>
+        <div className="  md:w-1/6 p-5 rounded-lg shadow-md hover:bg-black hover:text-white transition duration-300 animate-fade-in">
+        <select
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+          className="select-filter w-1/4 sm:w-full  p-2 border rounded text-black bg-gray-200 hover:bg-black hover:text-white focus:outline-none focus:bg-black focus:text-white transition duration-300 " >
+          <option value="all">All</option>
+          <option value="installation">Installation</option>
+          <option value="painting">Painting</option>
+          <option value="public art">Public Art</option>
+          <option value="sculpture">Sculpture</option>
+          <option value="sketches">Sketches</option>
+          <option value="Studio Space">Studio Space</option>
+        </select>
+      </div>
 
-        {/* Add Work Button */}
         <div className="flex items-center justify-end w-full">
-          <button className="mt-6 py-2 px-4 border border-white rounded-full text-white flex items-center justify-center hover:bg-white hover:text-black transition-colors">
+          <button className="mt-6 py-2 px-4 border {`${isDarkMode ? 'border-black':'border-white'}  rounded-full {`${isDarkMode ? 'text-black':'text-white'} flex items-center justify-center hover:bg-white hover:text-black transition-colors">
             <a href="/AddWork">Add Work</a>
-          
+
             <img src={rightarrowwhite} alt="Right arrow" className="w-6" />
           </button>
         </div>
@@ -109,8 +111,8 @@ const AllWork = () => {
                 alt={artwork.artname}
               />
               <div className="text-content">
-                <p className="text-white py-2">{artwork.artname}</p>
-                <p className="text-white">{artwork.arttype}</p>
+                <p className="{`${isDarkMode ? 'text-black':'text-white'}  py-2">{artwork.artname}</p>
+                <p className="{`${isDarkMode ? 'text-black':'text-white'} ">{artwork.arttype}</p>
               </div>
 
               <div className="absolute top-2 right-0">
@@ -119,11 +121,13 @@ const AllWork = () => {
                     onClick={() => toggleDropdown(artwork._id)}
                     className="text-slate-500 py-2 px-4 rounded inline-flex items-center"
                   >
-                    <FontAwesomeIcon icon={faEllipsisVertical} className="text-black font-bold text-2xl" />
+                    <FontAwesomeIcon
+                      icon={faEllipsisVertical}
+                      className="text-black font-bold text-2xl"
+                    />
                   </button>
                   {dropdownOpen === artwork._id && (
-                    <ul className="dropdown-menu absolute right-0 rounded-md shadow-lg text-white flex flex-col bg-white p-2">
-                      
+                    <ul className="dropdown-menu absolute right-0 rounded-md shadow-lg {`${isDarkMode ? 'text-black':'text-white'}  flex flex-col bg-white p-2">
                       <li>
                         <button
                           onClick={() => handleDelete(artwork._id)}
@@ -153,7 +157,3 @@ const AllWork = () => {
 };
 
 export default AllWork;
-
-
-
-

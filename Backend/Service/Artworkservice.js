@@ -11,7 +11,7 @@ cloudinary.config({
 
 const createArt = async (artData) => {
   const { artname, arttype, artimage, medium, artsize, year, description, exhibition, location,artvedio } = artData;
-  if (!artname || !arttype || !artimage || !medium || !year || !description ||!exhibition ||! artvedio) {
+  if (!artname || !arttype || !artimage || !medium || !year || !description ||!exhibition ) {
     throw new Error('All fields are mandatory');
   }
   const newArt = await Art.create({

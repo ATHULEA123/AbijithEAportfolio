@@ -3,24 +3,26 @@ const path = require('path');
 const connectDb = require('./Config/Dbconnection');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const errorHandler = require('./middleware/errorhandler');
+const uploadRoutes = require('./Routes/uploadRoutes');
 const dotenv = require('dotenv').config();
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3000;
 
 connectDb();
-app.use(cors());
-app.use(bodyParser.json()); 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors()); 
+app.use(bodyParser.json({ limit: '30mb' })); 
+app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 
-// Serve static files from the Public/Uploads directory
+app.use('/Public/BackgroundUrl', express.static(path.join(__dirname, 'Public/BackgroundUrl')));
 app.use('/Uploads', express.static(path.join(__dirname, 'Public/Uploads')));
 
-// Route setup
-app.use('/', require('../Backend/Routes/ArtworkRoute'));
-app.use('/art', require('../Backend/Routes/ArtistRoute'));
+app.use("/api", uploadRoutes);
+
+app.use('/', require('./Routes/ArtworkRoute'));
+app.use('/art', require('./Routes/ArtistRoute'));
+app.use(errorHandler);
 
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
 });
-
-

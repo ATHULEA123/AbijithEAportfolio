@@ -61,7 +61,7 @@ const AddWork = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/postart",
+        `${import.meta.env.VITE_BACKEND_BASE_URL}/postart`, 
         formData,
         {
           headers: {
@@ -69,9 +69,9 @@ const AddWork = () => {
           },
         }
       );
+    
       console.log("Form submitted successfully:", response.data);
       setSuccessMessage("Artwork submitted successfully!");
-      // Clear form fields after successful submission
       setArtName("");
       setArtType("");
       setArtSize("");
@@ -98,7 +98,6 @@ const AddWork = () => {
         <div className="flex-1 flex justify-center items-center my-16">
           <form className="w-full max-w-4xl" onSubmit={handleSubmit}>
             <div className="flex flex-wrap -mx-3 mb-6 gap-y-8">
-              {/* Writing Part */}
               <div className="w-full md:w-1/2 px-3 gap-y-8">
                 <div className="w-full px-3 mb-6 md:mb-0">
                   <label
@@ -123,14 +122,20 @@ const AddWork = () => {
                   >
                     Art Type
                   </label>
-                  <input
-                    className="appearance-none block w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                    id="grid-art-type"
-                    type="text"
-                    placeholder="Type"
-                    value={artType}
-                    onChange={(e) => setArtType(e.target.value)}
-                  />
+                  <select
+    className="appearance-none block w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+    id="grid-art-type"
+    value={artType}
+    onChange={(e) => setArtType(e.target.value)}
+  >
+    <option value="" disabled>Select Art Type</option>
+    <option value="Installation">Installation</option>
+    <option value="Painting">Painting</option>
+    <option value="Public Art">Public Art</option>
+    <option value="Sculpture">Sculpture</option>
+    <option value="Sketches">Sketches</option>
+    <option value="Studio Space">Studio Space</option>
+  </select>
                 </div>
                 <div className="w-full px-3 mb-6 md:mb-0">
                   <label
@@ -210,7 +215,7 @@ const AddWork = () => {
                     value={exhibition}
                     onChange={(e) => setExhibition(e.target.value)}
                   />
-                  {/* artvediolink */}
+                 
                   <label
                     className="block uppercase tracking-wide text-white text-xs font-bold mb-2"
                     htmlFor="grid-videolink"
