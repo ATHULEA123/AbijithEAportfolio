@@ -61,7 +61,7 @@ const Collections = ({ isDarkMode }) => {
         </select>
       </div>
       <div className="flex justify-between">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12 p-5 flex-1 lg:gap-y-20">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12 p-5 flex-1 lg:gap-y-20">
           {filteredArtworks.length > 0 ? (
             filteredArtworks.map((artwork, index) => (
               <div

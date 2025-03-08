@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import returnarrow from "../../assets/returnarrow.png";
 import { FaBars } from 'react-icons/fa';
-const Navbar = ({isDarkMode}) => {
+const Navbar = ({ isDarkMode }) => {
   const [isVisible, setIsVisible] = useState(false);
-
   return (
     <div className="flex justify-between items-center py-6 px-8">
       <div className="flex items-center gap-4">
-        <h1 className={`text-xl font-bold${isDarkMode ? 'text-black':'text-white'  }`}>ABIJITH EA</h1>
+        <h1 className={`text-xl font-bold${isDarkMode ? 'text-black' : 'text-white'}`}>ABIJITH EA</h1>
       </div>
       <div className="flex me-10">
         <ul className=" hidden lg:flex gap-6">
@@ -45,20 +44,19 @@ const Navbar = ({isDarkMode}) => {
           </li>
         </ul>
         <button
-  onClick={() => {
-    setIsVisible(true);
-  }}
-  className="lg:hidden absolute right-10 top-7 "
-  aria-label="Open Menu"
->
-  <FaBars
-  />
-</button>
+          onClick={() => {
+            setIsVisible(true);
+          }}
+          className="lg:hidden absolute right-10 top-7 me-8 text-xl"
+          aria-label="Open Menu"
+        >
+          <FaBars
+          />
+        </button>
       </div>
       <div
-        className={`fixed h-full bottom-0 right-0 top-0 overflow-hidden bg-white  transition-all duration-700 ease-in-out  z-40 ${
-          isVisible ? "w-80" : "w-0"
-        } `}
+        className={`fixed h-full bottom-0 right-0 top-0 overflow-hidden bg-white  transition-all duration-700 ease-in-out  z-40 ${isVisible ? "w-80" : "w-0"
+          } `}
       >
         <div className="flex flex-col text-gray-600">
           <div
@@ -97,5 +95,4 @@ const Navbar = ({isDarkMode}) => {
     </div>
   );
 };
-
 export default Navbar;
