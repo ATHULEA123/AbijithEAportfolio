@@ -50,14 +50,14 @@ const ArtworkPage = React.memo(({ isDarkMode }) => {
             slidesPerView={1}
             pagination={{ clickable: true }}
             navigation={true}
-            className="rounded-lg shadow-md custom-swiper"
+            className="custom-swiper"
           >
             {images.map((image, index) => (
               <SwiperSlide key={index}>
                 <img
                   src={image}
                   alt={`Artwork ${index + 1}`}
-                  className="w-full h-auto sm:h-80 md:h-screen object-cover rounded-lg"
+                  className="w-full  "
                 />
               </SwiperSlide>
             ))}

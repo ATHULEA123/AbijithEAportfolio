@@ -7,7 +7,7 @@ const errorHandler = require('./middleware/errorhandler');
 const uploadRoutes = require('./Routes/uploadRoutes');
 const dotenv = require('dotenv').config();
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5001;
 
 connectDb();
 app.use(cors()); 

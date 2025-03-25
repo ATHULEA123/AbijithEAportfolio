@@ -53,7 +53,7 @@ const App = () => {
           {/* Public Routes */}
           <Route path="/" element={<Layout isDarkMode={isDarkMode} />}>
             <Route index element={<Homes isDarkMode={isDarkMode} />} />
-            <Route path="collections" element={<Collections />} />
+            <Route path="collections" element={<Collections isDarkMode={isDarkMode} />} />
             <Route path="about" element={<About isDarkMode={isDarkMode} />} />
             <Route path="contact" element={<Contact isDarkMode={isDarkMode} />} />
             <Route path="artwork/:id" element={<ArtworkPage isDarkMode={isDarkMode} />} />
@@ -71,7 +71,7 @@ const App = () => {
               </Routes>
             </ProtectedRoute>
           } />
-          {/* Catch all undefined routes */}
+          
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>

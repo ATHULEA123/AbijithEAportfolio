@@ -76,10 +76,10 @@ const Collections = ({ isDarkMode }) => {
                   alt={artwork.artname}
                 />
                 <div className="text-content">
-                  <p className={` ${isDarkMode ? 'text-black' : 'text-white'} py-2 text-xl font-bold font-serif md:text-2xl`}>
+                  <p className={`${isDarkMode ? 'text-black':'text-white'} py-2 text-sm font-bold font-serif md:text-2xl`}>
                     {artwork.artname}
                   </p>
-                  <p className={` ${isDarkMode ? 'text-black' : 'text-white'} font-serif text-lg md:text-lg`}>
+                  <p className={`${isDarkMode ? 'text-black':'text-white'} font-serif text-sm md:text-lg`}>
                     {artwork.arttype}
                   </p>
                 </div>
